@@ -110,3 +110,12 @@ git submodule add https://github.com/florinbaciuu/ESP32_Resource_Monitor.git lib
 git commit -m "Adăugat din nou submodulul"
 git push
 ```
+
+### 🔹 Sterge fisier din cache dupa introducerea in .gitignore
+```
+git rm -r --cached .devcontainer
+git rm -r --cached .vscode
+git rm -r --cached build
+
+```
+
