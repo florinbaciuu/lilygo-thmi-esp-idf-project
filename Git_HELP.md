@@ -18,9 +18,8 @@ git init                                                          # Inițializea
 git add .                                                         # Adaugă toate fișierele
 git commit -m "first commit"                                      # Creează primul commit
 git branch -M main                                                # Redenumește branch-ul în 'main'
-git remote add origin https://github.com/florinbaciuu/REPO.git    # Adaugă remote-ul
+git remote add origin https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git    # Adaugă remote-ul
 ```
-https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project
 ---
 ## 🔗 Adăugare, verificare și ștergere submodul Git (ex: o librărie în lib/)
 ## 🔗 Adăugare submodul Git (ex: o librărie în lib/)
