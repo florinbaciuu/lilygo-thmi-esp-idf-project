@@ -3,5 +3,5 @@
 
 bash:
 ```
-find /Users/florinbaciu/Desktop/lilygo-tdisplays3-esp-idf-project -name .DS_Store -delete
+find /Users/florinbaciu/Desktop/lilygo-thmi-esp-idf-project/ -name .DS_Store -delete
 ```

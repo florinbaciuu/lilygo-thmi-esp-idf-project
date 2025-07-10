@@ -2,3 +2,4 @@
 build/
 .devcontainer/
 .vscode/
+.DS_Store
