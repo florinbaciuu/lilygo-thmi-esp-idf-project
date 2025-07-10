@@ -1,2 +1,4 @@
 # Ignoră folderul build
 build/
+.devcontainer/
+.vscode/
