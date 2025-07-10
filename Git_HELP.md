@@ -2,23 +2,23 @@
 
 https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
 
+
 ### 🔧 Configurare Git globală (doar o dată pe sistem)
 
-## 🔧 # Numele tău pentru toate commiturile
+🔧 # Numele tău pentru toate commiturile
 ```
 git config --global user.name "florinbaciuu"
 ```
-## 🔧 # Emailul asociat contului GitHub
+🔧 # Emailul asociat contului GitHub
 ```
 git config --global user.email "baciuaurelflorin@gmail.com"
 ```
-## 🔧 # Emailul asociat contului GitHub
+🔧 # Emailul asociat contului GitHub
 ```
 git config --global init.defaultBranch main                       # Branch implicit: main
 ```
 
 ---
-
 
 ## 🆕 Inițializarea unui proiect nou și conectarea la GitHub
 
