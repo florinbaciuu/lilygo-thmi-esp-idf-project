@@ -4,8 +4,7 @@ The device(board)used is Lilygo T HHMI S3 with 16 MB Flash and 8 MB PSRAM.
 
 to clone :
 ```
-git clone https://github.com/florinbaciuu/lilygo-thmi-idf-template-project
-
+git clone https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
 git submodule status                                              # Verificare submodule
 git submodule update --init --recursive                           # Inițializare + update
 ```
@@ -13,5 +12,5 @@ git submodule update --init --recursive                           # Inițializar
 
 or to clone complete with submodules
 ```
-git clone --recurse-submodules https://github.com/florinbaciuu/lilygo-thmi-idf-template-project
+git clone --recurse-submodules https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
 ```
