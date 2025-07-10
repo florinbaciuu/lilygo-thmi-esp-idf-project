@@ -1,14 +1,14 @@
 # 📘 Ghid Git personal – by florinbaciuu (a.k.a. The One)
 
+https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
+
 ## 🔧 Configurare Git globală (doar o dată pe sistem)
 
 ```
 git config --global user.name "florinbaciuu"                      # Numele tău pentru toate commiturile
 git config --global user.email "baciuaurelflorin@gmail.com"       # Emailul asociat contului GitHub
 git config --global init.defaultBranch main                       # Branch implicit: main
-git config --global core.editor "code --wait"                     # Editor implicit: VS Code
 ```
-
 ---
 
 ## 🆕 Inițializarea unui proiect nou și conectarea la GitHub
@@ -21,17 +21,15 @@ git branch -M main                                                # Redenumește
 git remote add origin https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git    # Adaugă remote-ul
 ```
 ---
+
+
+
+### 🔗 Adăugare submodul Git (ex: o librărie în lib/)
+### 🔍 Verificare submodule existente
 ## 🔗 Adăugare, verificare și ștergere submodul Git (ex: o librărie în lib/)
-## 🔗 Adăugare submodul Git (ex: o librărie în lib/)
-### ✅ Adăugare submodul
 
 ```
 git submodule add https://github.com/florinbaciuu/ESP32_Resource_Monitor.git lib/ESP32_Resource_Monitor
-```
-
-### 🔍 Verificare submodule existente
-
-```
 git submodule status                  # Afișează commiturile și starea submodulelor
 git config -f .gitmodules --list     # Verifică ce submodule sunt înregistrate oficial
 cat .gitmodules                      # Afișează configurația direct
@@ -46,9 +44,7 @@ git rm -f .git/modules/lib/ESP32_Resource_Monitor
 rm -rf .git/modules/lib/ESP32_Resource_Monitor
 git commit -m "Șters submodulul ESP32_Resource_Monitor"
 ```
-
 ---
-
 
 ## 🚀 Push către GitHub
 
@@ -114,4 +110,3 @@ git submodule add https://github.com/florinbaciuu/ESP32_Resource_Monitor.git lib
 git commit -m "Adăugat din nou submodulul"
 git push
 ```
-cd 
