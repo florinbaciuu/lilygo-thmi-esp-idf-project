@@ -99,7 +99,6 @@ extern "C" {
 #include "esp_lcd_panel_ops.h"
 #include "esp_lcd_panel_st7789.h"  // Sau driverul real folosit de tine
 #include "ui.h"
-//#include "ResourceMonitor/ResourceMonitor.h"
 #include "ResourceMonitor.h"
 
 #include <string.h>
@@ -116,10 +115,8 @@ extern "C" {
 #include "nvs.h"
 #include "nvs_flash.h"
 #include "soc/soc_caps.h"
-#include "cmd_system.h"
-#include "cmd_nvs.h"
-
 #include "sdmmc_cmd.h"
+#include "cmd_system.h"
 }
 
 /**********************
@@ -726,7 +723,6 @@ extern "C" void app_main(void) {
   /* Register commands */
   esp_console_register_help_command();
   register_system_common();
-  register_nvs();
 
   boot_count++;
   ESP_LOGI("RTC", "Boot count (from RTC RAM): %lu", boot_count);
@@ -997,7 +993,7 @@ extern "C" void app_main(void) {
     ((1))                                   // Nucleul pe care ruleaza (ESP32 e dual-core)
   );
 
-  // start_resource_monitor();
+   start_resource_monitor();
 
   xTaskCreatePinnedToCore(
     v_check_0_pin_state_task,               // Functia care ruleaza task-ul
