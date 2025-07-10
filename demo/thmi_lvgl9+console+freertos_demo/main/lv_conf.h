@@ -1,5 +1,13 @@
 ﻿/**
  * @file lv_conf.h
+ * @brief
+ * This is a configuration file for LVGL (Light and Versatile Graphics Library).
+ * It contains various settings that control the behavior and features of the library.
+ * You can customize these settings to suit your application needs.
+ * * This file is not meant to be included directly in your project.
+ * * Instead, copy it to your project directory and rename it to `lv_conf.h`.
+ * * Then, modify the settings as needed.
+ * * The library will automatically include this file during compilation.
  * Configuration file for v9.2.2
  */
 

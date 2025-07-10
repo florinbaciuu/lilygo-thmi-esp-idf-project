@@ -118,6 +118,9 @@ extern "C" {
 #include "sdmmc_cmd.h"
 }
 
+/**********************
+ *   GLOBAL FUNCTIONS
+ **********************/
 // ----------------------------------------------------------
 
 /**
@@ -513,24 +516,7 @@ uint32_t lv_get_rtos_tick_count_callback(void) {
 ██      ██   ██ ██      ██      ██   ██   ██    ██    ██      ██ 
 ██      ██   ██ ███████ ███████ ██   ██   ██     ██████  ███████ 
 */
-/**********************
- *   GLOBAL FUNCTIONS
- **********************/
-extern "C" void vApplicationIdleHook(void) {
-  // Codul tău aici sau lasă gol
-  // ex: __asm__("nop");
-  // for (int i = 0; i < 100; i++) {
-  //       asm volatile("nop");
-  //   }
-}
-//---------
-extern "C" void vApplicationTickHook(void) {
-  // Codul tău aici sau lasă gol
-  // ex: __asm__("nop");
-  // for (int i = 0; i < 100; i++) {
-  //       asm volatile("nop");
-  //   }
-}
+
 /*********************
  *  rtos variables
  *********************/

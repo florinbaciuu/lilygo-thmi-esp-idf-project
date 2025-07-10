@@ -1,3 +1,8 @@
+
+// made with LVGL.\n"
+// by Florin Baciu, 2025\n"
+
+// Includes
 #include "lvgl.h"
 #include "esp_log.h"
 #include "esp_sleep.h"
@@ -18,8 +23,8 @@ static void btn1_event_cb(lv_event_t *e) {
 }
 
 void btn2_event_cb(lv_event_t *e) {
-    ESP_LOGI("UI", "Butonul Light Sleep apăsat");
-    esp_light_sleep_start();
+  ESP_LOGI("UI", "Butonul Light Sleep apăsat");
+  esp_light_sleep_start();
 }
 
 // Callback pentru al treilea buton
