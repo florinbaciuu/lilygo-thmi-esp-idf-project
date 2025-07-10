@@ -9,33 +9,51 @@ https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
 ```
 git config --global user.name "florinbaciuu"
 ```
+
 🔧 # Emailul asociat contului GitHub
 ```
 git config --global user.email "baciuaurelflorin@gmail.com"
 ```
+
 🔧 # Emailul asociat contului GitHub
 ```
-git config --global init.defaultBranch main                       # Branch implicit: main
+git config --global init.defaultBranch main
 ```
 
 ---
 
 ## 🆕 Inițializarea unui proiect nou și conectarea la GitHub
 
+Inițializează repo local:
 ```
-git init                                                          # Inițializează repo local
-git add .                                                         # Adaugă toate fișierele
-git commit -m "first commit"                                      # Creează primul commit
-git branch -M main                                                # Redenumește branch-ul în 'main'
-git remote add origin https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git    # Adaugă remote-ul
+git init
 ```
+
+Adaugă toate fișierele
+```
+git add .
+```
+
+Creează primul commit:
+```
+git commit -m "first commit"
+```
+
+Redenumește branch-ul în 'main':
+```
+git branch -M main
+```
+
+Adaugă remote-ul : (GITHUB)
+```
+git remote add origin https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
+```
+
 ---
 
 
-
-### 🔗 Adăugare submodul Git (ex: o librărie în lib/)
-### 🔍 Verificare submodule existente
-## 🔗 Adăugare, verificare și ștergere submodul Git (ex: o librărie în lib/)
+### 🔗 Adăugare submodul Git (ex: o librărie în lib/) / Verificare submodule existente /
+### 🔍  Adăugare, verificare și ștergere submodul Git (ex: o librărie în lib/)
 
 ```
 git submodule add https://github.com/florinbaciuu/ESP32_Resource_Monitor.git lib/ESP32_Resource_Monitor
@@ -45,7 +63,6 @@ cat .gitmodules                      # Afișează configurația direct
 ```
 
 ### ❌ Ștergere completă a unui submodul
-
 ```
 git submodule deinit -f lib/ESP32_Resource_Monitor
 git rm -f lib/ESP32_Resource_Monitor
@@ -56,7 +73,6 @@ git commit -m "Șters submodulul ESP32_Resource_Monitor"
 ---
 
 ## 🚀 Push către GitHub
-
 ```
 git push -u origin main                                           # Push initial La primul push dintr-un proiect nou:
 git push --set-upstream origin main				                  # Push initial La primul push dintr-un proiect nou:
@@ -73,7 +89,6 @@ git push                                                          # Trimite schi
 ---
 
 ## 🔁 Ștergere remote 'origin'
-
 ```
 git remote remove origin                                          # Șterge remote-ul definit
 ```
@@ -93,7 +108,6 @@ git submodule update --init --recursive
 ## 🛠️ Reparare submodul – commit lipsă / detached HEAD
 
 ### 🔹 Varianta 1: Forțezi commit valid
-
 ```
 cd lib/ESP32_Resource_Monitor
 git fetch
@@ -105,7 +119,6 @@ git push
 ```
 
 ### 🔹 Varianta 2: Ștergi submodulul și îl adaugi curat
-
 ```
 git submodule deinit -f lib/ESP32_Resource_Monitor
 git rm -f lib/ESP32_Resource_Monitor
