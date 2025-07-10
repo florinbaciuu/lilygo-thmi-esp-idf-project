@@ -2,14 +2,23 @@
 
 https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
 
-## 🔧 Configurare Git globală (doar o dată pe sistem)
+### 🔧 Configurare Git globală (doar o dată pe sistem)
 
+## 🔧 # Numele tău pentru toate commiturile
 ```
-git config --global user.name "florinbaciuu"                      # Numele tău pentru toate commiturile
-git config --global user.email "baciuaurelflorin@gmail.com"       # Emailul asociat contului GitHub
+git config --global user.name "florinbaciuu"
+```
+## 🔧 # Emailul asociat contului GitHub
+```
+git config --global user.email "baciuaurelflorin@gmail.com"
+```
+## 🔧 # Emailul asociat contului GitHub
+```
 git config --global init.defaultBranch main                       # Branch implicit: main
 ```
+
 ---
+
 
 ## 🆕 Inițializarea unui proiect nou și conectarea la GitHub
 
@@ -74,9 +83,9 @@ git remote remove origin                                          # Șterge remo
 ## ⬇️ Clonare cu tot cu submodule
 
 ```
-git clone --recurse-submodules https://github.com/florinbaciuu/lilygo-thmi-idf-template-project
-git submodule status                                              # Verificare submodule
-git submodule update --init --recursive                           # Inițializare + update
+git clone --recurse-submodules https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project
+git submodule status
+git submodule update --init --recursive
 ```
 
 ---
