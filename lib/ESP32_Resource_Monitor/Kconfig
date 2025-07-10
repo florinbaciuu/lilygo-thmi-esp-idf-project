@@ -1,0 +1,88 @@
+menu "ESP32 Resource Monitor Configuration"
+
+    config ESP32_RESOURCE_MONITOR_ENABLED
+        bool "Enable Resource Monitor"
+        default y
+        help
+            Activates the ESP32 Resource Monitor task for tracking CPU, heap, timers, and memory usage.
+
+    config RESOURCE_MONITOR_USE_KCONFIG
+    bool "Use Kconfig for ESP32 Resource Monitor configuration"
+    default y
+
+if RESOURCE_MONITOR_USE_KCONFIG
+
+    config TASKMONITOR_DUMP_INTERVAL
+        int "Dump interval (seconds)"
+        default 4
+        range 1 60
+        help
+            Intervalul în secunde dintre execuțiile monitorului.
+
+    config TASKMON_MAX_TASKS
+        int "Max number of monitored tasks"
+        default 40
+        range 10 100
+        help
+            Numărul maxim de taskuri pe care monitorul le va urmări.
+
+    config TASKMON_MAX_TASK_NAME_LEN
+        int "Max task name length"
+        default 16
+        range 4 16
+        help
+            Lungimea maximă a numelui taskului (pentru afișare formatată).
+
+    config TIME_STAMP_ON
+        bool "Include timestamp in logs"
+        default y
+        help
+            Dacă este activat, fiecare raport va include un timestamp.
+
+    config DEBUG_TASKS
+        bool "Enable task monitoring output"
+        default y
+        help
+            Activează dump-ul de taskuri cu utilizare CPU, stack etc.
+
+    config DEBUG_MEMORY
+        bool "Enable memory usage dump"
+        default y
+        help
+            Afișează utilizarea memoriei RAM și PSRAM în mod structurat.
+
+    config DEBUG_MEMORY_USE_PRINTF
+        bool "Use printf instead of ESP_LOGI for memory info"
+        default y
+        help
+            Folosește printf în loc de ESP_LOGI pentru afișarea memoriei.
+
+    config MEMORY_DUMP
+        bool "Enable full heap memory dump"
+        default n
+        help
+            Activează dump-ul complet al heap-ului. Poate încetini sistemul.
+
+    config DEBUG_ESP_TIMERS
+        bool "Enable ESP timer diagnostics"
+        default y
+        help
+            Activează dump-ul detaliat al timerelor create prin `esp_timer`.
+
+    config USE_ESP_TIMER
+        bool "Use ESP timer for triggering resource monitor"
+        default y
+        help
+            Dacă este activat, se folosește `esp_timer` pentru apelarea callback-ului monitorului.
+
+    config RESMON_USE_ESP_TIMER_DISPATCH
+        bool "Run monitor directly inside ESP timer (no task notify)"
+        depends on USE_ESP_TIMER
+        default n
+        help
+            Dacă este activat, monitorul rulează direct în callback-ul ESP timer.
+            Dacă este dezactivat, folosește un task dedicat notificat prin `vTaskNotifyGiveFromISR`.
+
+endif  # RESOURCE_MONITOR_USE_KCONFIG
+
+endmenu

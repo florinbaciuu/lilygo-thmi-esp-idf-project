@@ -1,0 +1,3 @@
+[submodule "lib/ESP32_Resource_Monitor"]
+	path = lib/ESP32_Resource_Monitor
+	url = https://github.com/florinbaciuu/ESP32_Resource_Monitor.git
