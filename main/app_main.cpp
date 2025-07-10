@@ -5,8 +5,12 @@
  * @brief     Demo
  * @license   MIT
  * @copyright Copyright (c) 2025 Baciu Aurel Florin
- * @date      2025-08-07
- * @time      22:19 (PM)
+ * @copyright Oltean East
+ * @version   1.0.0
+ * 
+ * @date      10 July 2025
+ * @time      20:40 (PM)
+ * @computer  Mac Mini M4
  * ..
  */
 
