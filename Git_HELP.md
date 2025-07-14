@@ -1,6 +1,7 @@
 # 📘 Ghid Git personal – by florinbaciuu (a.k.a. The One)
 
 https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
+https://gitlab.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
 
 
 ### 🔧 Configurare Git globală (doar o dată pe sistem)
@@ -29,9 +30,12 @@ Inițializează repo local:
 git init
 ```
 
-Adaugă toate fișierele
+Lucreaza cu fisiere
 ```
-git add .
+git add .                               # Add file contents to the index
+git mv nume_fisier                      # Move or rename a file, a directory, or a symlink
+git restore nume_fisier                 # Restore working tree files
+git rm nume_fisier                      # Remove files from the working tree and from the index
 ```
 
 Creează primul commit:
@@ -44,12 +48,24 @@ Redenumește branch-ul în 'main':
 git branch -M main
 ```
 
-Adaugă remote-ul : (GITHUB)
+Adaugă remote-ul : (GITHUB) and GITLAB
 ```
 git remote add origin https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
+
+# sau :
+
+git remote add github https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
+
+git remote add https://gitlab.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
 ```
 
 ---
+
+## 🆕 Verifici remote-s
+```
+git remote -v
+git remote
+```
 
 
 ### 🔗 Adăugare submodul Git (ex: o librărie în lib/) / Verificare submodule existente /
@@ -75,10 +91,25 @@ git commit -m "Șters submodulul ESP32_Resource_Monitor"
 ## 🚀 Push către GitHub
 ```
 git push -u origin main                                           # Push initial La primul push dintr-un proiect nou:
-git push --set-upstream origin main				                  # Push initial La primul push dintr-un proiect nou:
+git push -u github main
+git push -u gitlab main
+
+git push --set-upstream origin main                               # Push initial La primul push dintr-un proiect nou:
+git push --set-upstream github main
+git push --set-upstream gitlab main
+
 git branch -vv							                          # Verifica ce upstream e
 git push 							                              # Dupa ce ai pus "git push -u origin main"
+
 git push --force origin main                                      # Push cu forțare (atenție!)
+git push --force github main
+git push --force gitlab main
+
+git push origin main
+git push github main
+git push gitlab main
+
+git push --all                                                    # Dar fii atent --all inseamna toate branch-urile nu toti remote-ii
 
 git fetch                                                         # Doar aduce modificările remote, nu le aplică local
 git pull                                                          # Fetch + Merge (sau Rebase) = trage și le bagă direct în branchul tău
@@ -138,6 +169,23 @@ git push
 git rm -r --cached .devcontainer
 git rm -r --cached .vscode
 git rm -r --cached build
+
+```
+
+
+### 🔹 Branch
+```
+git branch                                              # View local
+git branch -r                                           # View remote
+git branch -a                                           # View all (local and remote)
+git branch -v                                           # View the branches
+
+git branch -d nume_branch                               # Delete the branch work only if the branch fusiioned with main
+git branch -D nume_branch                               # Delete the branch forced
+
+git push origin --delete nume_branch                    # Sterge un branch de pe remote
+git push github --delete nume_branch 
+git push gitlab --delete nume_branch 
 
 ```
 
