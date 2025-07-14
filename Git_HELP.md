@@ -1,6 +1,8 @@
 # 📘 Ghid Git personal – by florinbaciuu (a.k.a. The One)
 
 https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
+
+
 https://gitlab.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
 
 
