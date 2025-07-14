@@ -12,6 +12,7 @@
  * @time      20:40 (PM)
  * @computer  Mac Mini M4
  * ..
+ * @details   This file contains the main application logic, including initialization of hardware components,
  */
 
 /*********************
