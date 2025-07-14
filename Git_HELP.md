@@ -40,9 +40,12 @@ git restore nume_fisier                 # Restore working tree files
 git rm nume_fisier                      # Remove files from the working tree and from the index
 ```
 
-Creează primul commit:
+Creează primul commit: si lucreaza cu commit
 ```
 git commit -m "first commit"
+git commit --status
+git commit --branch
+git commit --all
 ```
 
 Redenumește branch-ul în 'main':
