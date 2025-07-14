@@ -43,6 +43,8 @@ git rm nume_fisier                      # Remove files from the working tree and
 Creează primul commit: si lucreaza cu commit
 ```
 git commit -m "first commit"
+
+git commit -m "first commit" --status
 git commit --status
 git commit --branch
 git commit --all
@@ -56,12 +58,15 @@ git branch -M main
 Adaugă remote-ul : (GITHUB) and GITLAB
 ```
 git remote add origin https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
+git remote set head origin man
 
 # sau :
 
 git remote add github https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
+git remote set head github man
 
 git remote add https://gitlab.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
+git remote set head gitlab man
 ```
 
 ---
