@@ -6,41 +6,48 @@ https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
 https://gitlab.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
 
 
-### 🔧 Configurare Git globală (doar o dată pe sistem)
-
-🔧 # Numele tău pentru toate commiturile
+## Configurare Git globală (doar o dată pe sistem)
 ```
-git config --global user.name "florinbaciuu"
-```
-
-🔧 # Emailul asociat contului GitHub
-```
-git config --global user.email "baciuaurelflorin@gmail.com"
-```
-
-🔧 # Emailul asociat contului GitHub
-```
+git config --global user.name "florinbaciuu"                    # Numele tău pentru toate commiturile
+git config --global user.email "baciuaurelflorin@gmail.com"     # Emailul asociat contului GitHub
 git config --global init.defaultBranch main
 ```
 
 ---
 
-## 🆕 Inițializarea unui proiect nou și conectarea la GitHub
-
-Inițializează repo local:
+## Inițializarea unui proiect nou și conectarea la GitHub
 ```
-git init
+git init                                                        # Inițializează repo local:
 ```
+---
 
-Lucreaza cu fisiere
+## Redenumește branch-ul în 'main':
+```
+git branch -M main
+```
+---
+
+## Lucreaza cu fisiere
 ```
 git add .                               # Add file contents to the index
 git mv nume_fisier                      # Move or rename a file, a directory, or a symlink
 git restore nume_fisier                 # Restore working tree files
 git rm nume_fisier                      # Remove files from the working tree and from the index
 ```
+---
 
-Creează primul commit: si lucreaza cu commit
+## seteaza upstream
+Atentie doar unul poate fii setat concomitent
+```
+git push --set-upstream origin main                             # Seteaza upstream github predefinit
+
+# sau
+
+git push --set-upstream gitlab main                             # Seteaza upstream gitlab
+```
+---
+
+## Creează primul commit: si lucreaza cu commit
 ```
 git commit -m "first commit"
 
@@ -49,32 +56,22 @@ git commit --status
 git commit --branch
 git commit --all
 ```
+---
 
-Redenumește branch-ul în 'main':
-```
-git branch -M main
-```
-
-Ștergere remote 'origin'
+## Ștergere remote
 ```
 git remote remove origin                                          # Șterge remote-ul definit
 git remote remove nume_remote
 ```
+---
 
-Adaugă remote-ul : (GITHUB) and GITLAB
+## Adaugă remote-ul : (GITHUB) and (GITLAB) in functie de necesitati
 ```
 git remote add origin https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
-git remote set-head origin main
-
-# sau :
-
 git remote add github https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
-git remote set-head github main
-
 git remote add gitlab https://gitlab.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
-git remote set-head gitlab
-```
 
+```
 ---
 
 ## 🆕 Verifici remote-s
@@ -82,10 +79,10 @@ git remote set-head gitlab
 git remote -v
 git remote
 ```
+---
 
-
-### 🔗 Adăugare submodul Git (ex: o librărie în lib/) / Verificare submodule existente /
-### 🔍  Adăugare, verificare și ștergere submodul Git (ex: o librărie în lib/)
+## Adăugare submodul Git (ex: o librărie în lib/) / Verificare submodule existente /
+## Adăugare, verificare și ștergere submodul Git (ex: o librărie în lib/)
 
 ```
 git submodule add https://github.com/florinbaciuu/ESP32_Resource_Monitor.git lib/ESP32_Resource_Monitor
@@ -93,6 +90,7 @@ git submodule status                  # Afișează commiturile și starea submod
 git config -f .gitmodules --list     # Verifică ce submodule sunt înregistrate oficial
 cat .gitmodules                      # Afișează configurația direct
 ```
+---
 
 ### ❌ Ștergere completă a unui submodul
 ```
@@ -132,26 +130,20 @@ git pull                                                          # Fetch + Merg
 git clone                                                         # Fetch complet + creează repo nou local
 git push                                                          # Trimite schimbările tale către remote
 ```
-
 ---
 
-
-
----
-
-## ⬇️ Clonare cu tot cu submodule
+## Clonare cu tot cu submodule
 
 ```
 git clone --recurse-submodules https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project
 git submodule status
 git submodule update --init --recursive
 ```
-
 ---
 
-## 🛠️ Reparare submodul – commit lipsă / detached HEAD
+##  Reparare submodul – commit lipsă / detached HEAD
 
-### 🔹 Varianta 1: Forțezi commit valid
+##  Varianta 1: Forțezi commit valid
 ```
 cd lib/ESP32_Resource_Monitor
 git fetch
@@ -162,7 +154,7 @@ git commit -m "Resetat submodulul la commit valid"
 git push
 ```
 
-### 🔹 Varianta 2: Ștergi submodulul și îl adaugi curat
+## Varianta 2: Ștergi submodulul și îl adaugi curat
 ```
 git submodule deinit -f lib/ESP32_Resource_Monitor
 git rm -f lib/ESP32_Resource_Monitor
@@ -177,7 +169,7 @@ git commit -m "Adăugat din nou submodulul"
 git push
 ```
 
-### 🔹 Sterge fisier din cache dupa introducerea in .gitignore
+## Sterge fisier din cache dupa introducerea in .gitignore
 ```
 git rm -r --cached .devcontainer
 git rm -r --cached .vscode
@@ -185,8 +177,7 @@ git rm -r --cached build
 
 ```
 
-
-### 🔹 Branch
+## Branch
 ```
 git branch                                              # View local
 git branch -r                                           # View remote
