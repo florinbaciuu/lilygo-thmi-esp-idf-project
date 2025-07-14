@@ -55,18 +55,24 @@ Redenumește branch-ul în 'main':
 git branch -M main
 ```
 
+Ștergere remote 'origin'
+```
+git remote remove origin                                          # Șterge remote-ul definit
+git remote remove nume_remote
+```
+
 Adaugă remote-ul : (GITHUB) and GITLAB
 ```
 git remote add origin https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
-git remote set head origin man
+git remote set-head origin main
 
 # sau :
 
 git remote add github https://github.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
-git remote set head github man
+git remote set-head github main
 
-git remote add https://gitlab.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
-git remote set head gitlab man
+git remote add gitlab https://gitlab.com/florinbaciuu/lilygo-thmi-esp-idf-project.git
+git remote set-head gitlab
 ```
 
 ---
@@ -129,10 +135,7 @@ git push                                                          # Trimite schi
 
 ---
 
-## 🔁 Ștergere remote 'origin'
-```
-git remote remove origin                                          # Șterge remote-ul definit
-```
+
 
 ---
 

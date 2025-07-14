@@ -2,7 +2,7 @@
 # File: main/CMakeLists.txt
 # LilyGO THMI IDF Template Project
 cmake_minimum_required(VERSION 3.16)
-
+  
 # Set usual component variables
 set(app_sources "app_main.cpp" "init.cpp")
 set(app_include_dirs "." "")

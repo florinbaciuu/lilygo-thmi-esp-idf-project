@@ -1,5 +1,5 @@
 /**
- * @file      app_main.cpp
+ * @file      app_main.cpp. 
  * @author    Baciu Aurel Florin
  * @brief     Main application file for the Lilygo T HMI development board.
  * @brief     Demo

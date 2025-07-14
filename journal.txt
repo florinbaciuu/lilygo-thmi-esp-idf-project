@@ -4,7 +4,7 @@ at line 86 to 98 because of this ERROR:
 conflicting declaration of C function 'esp_err_t esp_lcd_new_panel_io_i2c(i2c_master_bus_handle_t, const esp_lcd_panel_io_i2c_config_t*, esp_lcd_panel_io_t**)'
 ""
 modified code is:
-""
+"" 
 /**
  * @brief Create LCD panel IO handle
  *
