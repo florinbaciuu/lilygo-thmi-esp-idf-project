@@ -13,7 +13,7 @@
 		//------------------------------------------------------------------
 		// WORKBENCH 
 		"workbench.iconTheme": "vscode-icons",
-		"workbench.colorTheme": "Saturated Dark Modern OLED",
+		"workbench.colorTheme": "Saturated Dark+",
 		"workbench.productIconTheme": "Default",
 		//"workbench.preferredDarkColorTheme": "Visual Studio 2017 Dark - C++", // chneau.saturated-dark-plus
 		//"workbench.preferredLightColorTheme": "Visual Studio 2017 Light - C++", // chneau.saturated-dark-plus
