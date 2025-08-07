@@ -23,7 +23,7 @@ void print_task_stack_info(void) {
                                                        numTasks,
                                                    NULL);
     // clang-format on
-    printf("╔═══════════════════════════════════════════════════════════════════════════╗\n");
+    printf("╔═════════════════════════════════════════════════════╗\n");
     printf("║ %-20s │ %-12s │ %-5s │ %-5s ║\n", "Task", "High Water", "State", "Prio");
     printf("╟──────────────────────┼──────────────┼───────┼───────╢\n");
     for (UBaseType_t i = 0; i < arraySize; i++)
@@ -34,6 +34,6 @@ void print_task_stack_info(void) {
             taskStatusArray[i].eCurrentState,
             taskStatusArray[i].uxCurrentPriority);
     }
-    printf("╚═══════════════════════════════════════════════════════════════════════════╝\n");
+    printf("╚═════════════════════════════════════════════════════╝\n");
     free(taskStatusArray);
 }

@@ -269,18 +269,18 @@ static const tasks_command_entry_t tasks_cmds[] = {
 // -------------------------------------
 
 void printTasksCommandList() {
-    printf("╔═══════════════════════════ AVAILABLE TASKS COMMANDS ═══════════════════════════╗\n");
+    printf("╔═══════════════════════ AVAILABLE TASKS COMMANDS ══════════════════════════╗\n");
     printf("║ %-10s │ %-60s ║\n", "Command", "Description");
-    printf("╟────────────┼──────────────────────────────────────────────────────────────────-╢\n");
+    printf("╟─────────┼─────────────────────────────────────────────────────────────────╢\n");
 
     for (size_t i = 0; i < sizeof(tasks_cmds) / sizeof(tasks_cmds[0]); ++i)
     {
-        printf("║ %-10s │ %-60s ║\n",
+    printf("║ %-10s │ %-60s ║\n",
             tasks_cmds[i].name,
             tasks_cmds[i].description ? tasks_cmds[i].description : "No description");
     }
 
-    printf("╚══════════════════════════════════════════════════════════════════════════════╝\n");
+    printf("╚════════════════════════════════════════════════════════════════════════════╝\n");
 }
 
 // -------------------------------------
@@ -308,21 +308,22 @@ static int tasks_command(int argc, char** argv) {
     if (argc == 1 || tasks_args.help->count > 0)
     {
         printf(
-            "╔══════════════════════════════ TASKS COMMAND HELP ═════════════════════════════╗\n");
+               "╔═══════════════════════════ TASKS COMMAND HELP ═════════════════════════════╗\n");
         printf(
-            "║ Usage: info <subcommand> [--help]                                            ║\n");
+               "║ Usage: info <subcommand> [--help]                                          ║\n");
         printf(
-            "║                                                                              ║\n");
-        printf("║ Available subcommands:                                                      ║\n");
+               "║                                                                            ║\n");
+        printf("║ Available subcommands:                                                     ║\n");
         for (size_t i = 0; i < TASKS_CMD_COUNT; i++)
         {
-            printf("║   %-10s - %s\n", tasks_cmds[i].name, tasks_cmds[i].description);
+            printf("║   %-10s - %-60s║\n", tasks_cmds[i].name, tasks_cmds[i].description);
         }
         printf(
-            "║                                                                              ║\n");
-        printf("║ Use 'info <subcommand> --help' for more information.                        ║\n");
+               "║                                                                            ║\n");
         printf(
-            "╚══════════════════════════════════════════════════════════════════════════════╝\n");
+               "║ Use 'info <subcommand> --help' for more information.                       ║\n");
+        printf(
+               "╚════════════════════════════════════════════════════════════════════════════╝\n");
         return 0;
     }
 
