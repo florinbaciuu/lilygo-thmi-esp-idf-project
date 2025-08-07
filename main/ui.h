@@ -7,17 +7,18 @@
 #include "esp_sleep.h"
 #include "lvgl.h"
 
-lv_obj_t* btn1 = NULL;              // Declarație globală pentru primul buton
-lv_obj_t* btn1_label = NULL;        // Declarație globală pentru eticheta primului buton
-lv_obj_t* btn3 = NULL;              // Declarație globală pentru al treilea buton
-lv_obj_t* btn3_label = NULL;        // Declarație globală pentru eticheta celui de-al treilea buton
-lv_obj_t* tab3_label = NULL;        // Declarație globală pentru etichetă
-lv_obj_t* slider_tab4 = NULL;       // Declarație globală pentru slider
+lv_obj_t* btn1              = NULL; // Declarație globală pentru primul buton
+lv_obj_t* btn1_label        = NULL; // Declarație globală pentru eticheta primului buton
+lv_obj_t* btn3              = NULL; // Declarație globală pentru al treilea buton
+lv_obj_t* btn3_label        = NULL; // Declarație globală pentru eticheta celui de-al treilea buton
+lv_obj_t* tab3_label        = NULL; // Declarație globală pentru etichetă
+lv_obj_t* slider_tab4       = NULL; // Declarație globală pentru slider
 lv_obj_t* slider_tab4_label = NULL; // Declarație globală pentru eticheta slider-ului
 
 // Callback pentru primul buton
 static void btn1_event_cb(lv_event_t* e) {
-    if (lv_event_get_code(e) == LV_EVENT_CLICKED) {
+    if (lv_event_get_code(e) == LV_EVENT_CLICKED)
+    {
         printf("Hello World!\n");
     }
 }
@@ -29,7 +30,8 @@ void btn2_event_cb(lv_event_t* e) {
 
 // Callback pentru al treilea buton
 static void btn3_event_cb(lv_event_t* e) {
-    if (lv_event_get_code(e) == LV_EVENT_CLICKED) {
+    if (lv_event_get_code(e) == LV_EVENT_CLICKED)
+    {
         printf("Hello Pople!\n");
     }
 }
