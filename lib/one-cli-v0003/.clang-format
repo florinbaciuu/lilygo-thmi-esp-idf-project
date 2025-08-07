@@ -1,24 +1,27 @@
-BasedOnStyle: LLVM
+BasedOnStyle: Google
 IndentWidth: 4
 TabWidth: 4
 UseTab: Never
 
+BreakBeforeBraces: Custom
 BraceWrapping:
   AfterFunction: false
-  AfterClass: true
-  AfterControlStatement: true
-  AfterEnum: true
-  AfterStruct: true
-  AfterNamespace: true
+  AfterClass: false
+  AfterControlStatement: false
+  AfterEnum: false
+  AfterStruct: false
+  AfterNamespace: false
   SplitEmptyFunction: false
   SplitEmptyRecord: false
   SplitEmptyNamespace: false
+
+
 
 AlignAfterOpenBracket: DontAlign
 AllowShortIfStatementsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: Inline
 AllowShortLoopsOnASingleLine: false
-ColumnLimit: 100
+
 DerivePointerAlignment: false
 PointerAlignment: Left
 SpaceBeforeParens: ControlStatements
@@ -27,15 +30,16 @@ SpaceBeforeParens: ControlStatements
 BinPackArguments: false
 BinPackParameters: false
 AllowAllArgumentsOnNextLine: true
+AllowAllParametersOfDeclarationOnNextLine: true
+ColumnLimit: 0
 
 # 🔹 Recomandat pentru ESP-IDF / FreeRTOS
-AlignConsecutiveAssignments: true
+AlignConsecutiveAssignments: AcrossEmptyLines
 AlignConsecutiveDeclarations: true
 AlignOperands: false
-BreakBeforeBraces: Custom
 AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: true
-BreakBeforeBinaryOperators: None
+BreakBeforeBinaryOperators: All
 BreakConstructorInitializersBeforeComma: true
 CompactNamespaces: false
 KeepEmptyLinesAtTheStartOfBlocks: false

@@ -5,15 +5,15 @@ CompileFlags:
     - -DCONFIG_IDF_TARGET=esp32s3
     - -I${workspaceFolder}/include
     - -I${workspaceFolder}/src
-    - -I${workspaceFolder}/modules/restart
-    - -I${workspaceFolder}/modules/tasks_nfo
-    - -I${workspaceFolder}/modules/uptime
-    - -I${workspaceFolder}/modules/info
+    - -I${workspaceFolder}/modules/hello_cmd
+    - -I${workspaceFolder}/modules/info_cmd
     - -I${workspaceFolder}/modules/nvs_cmd
-    - -I${workspaceFolder}/modules/wifi_cmd
+    - -I${workspaceFolder}/modules/perfmon_cmd
+    - -I${workspaceFolder}/modules/restart_cmd
     - -I${workspaceFolder}/modules/set_cmd
-    - -I${workspaceFolder}/build/config
-    - -I${workspaceFolder}/build/include
+    - -I${workspaceFolder}/modules/tasks_cmd
+    - -I${workspaceFolder}/modules/uptime_cmd
+    - -I${workspaceFolder}/modules/wifi_cmd
     - -Wno-unused-parameter
     - -Wno-unused-function
     - -Wno-missing-field-initializers
