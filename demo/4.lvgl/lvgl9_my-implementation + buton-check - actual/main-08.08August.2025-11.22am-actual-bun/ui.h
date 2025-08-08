@@ -6,38 +6,6 @@
 #include "esp_log.h"
 #include "esp_sleep.h"
 #include "lvgl.h"
-#include "esp_timer.h"
-
-// --- Variabile pentru drift monitor ---
-static lv_obj_t * label_drift = NULL;
-
-static void lv_drift_timer_cb(lv_timer_t * timer) {
-    static int64_t  real0_us = 0;
-    static uint32_t lv0_ms   = 0;
-    static char last_buf[64];
-
-    if (real0_us == 0) {
-        real0_us = esp_timer_get_time();
-        lv0_ms   = lv_tick_get();
-        strcpy(last_buf, ""); // golim ultima valoare
-        return;
-    }
-
-    int64_t  real_ms = (esp_timer_get_time() - real0_us) / 1000;
-    uint32_t lv_ms   = lv_tick_get() - lv0_ms;
-
-    char buf[64];
-    snprintf(buf, sizeof(buf),
-             "Real: %lld ms\nLVGL: %lu ms\nDrift: %ld ms",
-             (long long)real_ms,
-             (unsigned long)lv_ms,
-             (long)(lv_ms - real_ms));
-
-    if (strcmp(buf, last_buf) != 0) {
-        strcpy(last_buf, buf);
-        lv_label_set_text(label_drift, buf);
-    }
-}
 
 lv_obj_t* btn1              = NULL; // Declarație globală pentru primul buton
 lv_obj_t* btn1_label        = NULL; // Declarație globală pentru eticheta primului buton
@@ -118,15 +86,11 @@ void create_tabs_ui(void) {
     lv_obj_center(btn3_label);
 
     // TAB 3
-    tab3_label = lv_label_create(tab3);
-    lv_label_set_text(tab3_label, "Drift monitor:");
-    lv_obj_align(tab3_label, LV_ALIGN_TOP_LEFT, 5, 5);
-
-    label_drift = lv_label_create(tab3);
-    lv_obj_align(label_drift, LV_ALIGN_TOP_LEFT, 5, 25);
-    lv_label_set_text(label_drift, "Calculating...");
-
-    lv_timer_create(lv_drift_timer_cb, 500, NULL); // update la 500 ms
+    tab3_label =
+        lv_label_create(tab3); /*Create a white label, set its text and align it to the center*/
+    lv_label_set_text(tab3_label, "Hello world");
+    lv_obj_set_style_text_color(tab3_label, lv_color_hex(0xffffff), LV_PART_MAIN);
+    lv_obj_align(tab3_label, LV_ALIGN_CENTER, 0, 0);
 
     // TAB 4
     slider_tab4 = lv_slider_create(tab4); /*Create a slider in the center of the display*/

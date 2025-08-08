@@ -1,21 +1,41 @@
+/**
+ * @file      app_main.cpp.
+ * @author    Baciu Aurel Florin
+ * @brief     Main application file for the Lilygo T HMI development board.
+ * @brief     Demo
+ * @license   MIT
+ * @copyright Copyright (c) 2025 Baciu Aurel Florin
+ * @copyright Oltean East
+ * @version   1.0.0
+ *
+ * @date      10 July 2025
+ * @time      20:40 (PM)
+ * @computer  Mac Mini M4
+ * ..
+ * @details   This file contains the main application logic, including initialization of
+ * hardware components,
+ */
 
-#define BOARD_TFT_DATA0 (48)                   // GPIO pin for TFT data line 0
-#define BOARD_TFT_DATA1 (47)                   // GPIO pin for TFT data line 1
-#define BOARD_TFT_DATA2 (39)                   // GPIO pin for TFT data line 2
-#define BOARD_TFT_DATA3 (40)                   // GPIO pin for TFT data line 3
-#define BOARD_TFT_DATA4 (41)                   // GPIO pin for TFT data line 4
-#define BOARD_TFT_DATA5 (42)                   // GPIO pin for TFT data line 5
-#define BOARD_TFT_DATA6 (45)                   // GPIO pin for TFT data line 6
-#define BOARD_TFT_DATA7 (46)                   // GPIO pin for TFT data line 7
-#define BOARD_TFT_RST (-1)                     // GPIO pin for TFT reset, set to -1 if not used
-#define BOARD_TFT_CS (6)                       // GPIO pin for TFT chip select
-#define BOARD_TFT_DC (7)                       // GPIO pin for TFT data/command control
-#define BOARD_TFT_WR (8)                       // GPIO pin for TFT write control
-#define LCD_WIDTH (320)                        // Width of the LCD in pixels
-#define LCD_HEIGHT (240)                       // Height of the LCD in pixels
-#define LCD_PIXEL_CLOCK_HZ (10 * 1000 * 1000)  // LCD pixel clock frequency in Hz
-#define BOARD_TFT_BL (38)                      // GPIO pin for backlight control
-#define PWR_EN_PIN (10)                        // connected to the battery alone
+/*********************
+ *      DEFINES
+ *********************/
+#define BOARD_TFT_DATA0 (48)                           // GPIO pin for TFT data line 0
+#define BOARD_TFT_DATA1 (47)                           // GPIO pin for TFT data line 1
+#define BOARD_TFT_DATA2 (39)                           // GPIO pin for TFT data line 2
+#define BOARD_TFT_DATA3 (40)                           // GPIO pin for TFT data line 3
+#define BOARD_TFT_DATA4 (41)                           // GPIO pin for TFT data line 4
+#define BOARD_TFT_DATA5 (42)                           // GPIO pin for TFT data line 5
+#define BOARD_TFT_DATA6 (45)                           // GPIO pin for TFT data line 6
+#define BOARD_TFT_DATA7 (46)                           // GPIO pin for TFT data line 7
+#define BOARD_TFT_RST (-1)                             // GPIO pin for TFT reset, set to -1 if not used
+#define BOARD_TFT_CS (6)                               // GPIO pin for TFT chip select
+#define BOARD_TFT_DC (7)                               // GPIO pin for TFT data/command control
+#define BOARD_TFT_WR (8)                               // GPIO pin for TFT write control
+#define LCD_WIDTH (320)                                // Width of the LCD in pixels
+#define LCD_HEIGHT (240)                               // Height of the LCD in pixels
+#define EXAMPLE_LCD_PIXEL_CLOCK_HZ (10 * 1000 * 1000)  // LCD pixel clock frequency in Hz
+#define BOARD_TFT_BL (38)                              // GPIO pin for backlight control
+#define PWR_EN_PIN (10)                                // connected to the battery alone
 //---------
 #define PWR_ON_PIN \
     (14)                    // if you use an ext 5V power supply, you need to bring a magnet close to the
@@ -36,8 +56,8 @@
 #define USE_MUTEX 0
 #define USE_FREERTOS_TASK_NOTIF 1   // cica e mai rapid cu 20 %
 #define LV_TASK_NOTIFY_SIGNAL 0x01  // Semnalul pentru notificarea LVGL
-////#define LV_TIMER_TASK_METHOD USE_MUTEX
-#define LV_TIMER_TASK_METHOD (USE_MUTEX)
+////#define LV_TASK_NOTIFY_SIGNAL_MODE USE_MUTEX
+#define LV_TASK_NOTIFY_SIGNAL_MODE (USE_FREERTOS_TASK_NOTIF)
 //---------
 /* BUFFER MODE */
 #define BUFFER_20LINES 0
@@ -61,38 +81,23 @@
 #define RENDER_MODE_FULL 1                 //
 #define RENDER_MODE (RENDER_MODE_PARTIAL)  // selecteaza modul de randare
 //---------
-#define LV_TICK_SOURCE_TIMER 1
-#define LV_TICK_SOURCE_TASK 2
-#define LV_TICK_SOURCE_CALLBACK 3
-#ifndef LV_TICK_SOURCE
-#define LV_TICK_SOURCE (LV_TICK_SOURCE_CALLBACK)
-#endif /* #ifndef LV_TICK_SOURCE */
-//---------
-//---------
-/*Where flush_ready must to go : in display_flush or in io_trans_done_cb*/
-////#define flush_ready_in_disp_flush // nu e asa bun
-#define flush_ready_in_io_trans_done  // mult mai bine asa deoarece se da flush ready in momentul cand display face trans_done
-//---------
-//---------
 
 /*********************
  *      INCLUDES
  *********************/
 extern "C" {
-#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include "esp_mac.h"
+
 #include "esp_bootloader_desc.h"
-#include "esp_rom_sys.h"
-#include "driver/gpio.h"
-#include "esp_log.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-#include "lvgl.h"
-#include <lv_conf.h>
+#include "driver/gpio.h"
+#include "esp_log.h"
 
 #include "esp_lcd_panel_io.h"
 #include "esp_lcd_panel_ops.h"
@@ -100,10 +105,29 @@ extern "C" {
 #include "esp_lcd_touch.h"
 #include "esp_lcd_touch_xpt2046.h"
 
+#include "lvgl.h"
+#include <lv_conf.h>
+// #include "esp_lvgl_port.h"
+
 // my include
 #include "one-cli.h"
+
 #include "ui.h"
 }
+
+/**********************
+ *   GLOBAL FUNCTIONS
+ **********************/
+// ----------------------------------------------------------
+
+/**
+ * Prototypes for functions
+ */
+
+// ----------------------------------------------------------
+
+// ----------------------------------------------------------
+
 /**********************
  *   GLOBAL VARIABLES
  **********************/
@@ -219,21 +243,6 @@ bool touch_panel_is_touched(void) {
 }
 //---------
 
-#define LVGL_BENCH_TEST
-
-#ifdef LVGL_BENCH_TEST
-// --- stats flush (ISR-safe) ---
-static volatile uint64_t g_flush_tstart_us = 0;
-static volatile uint32_t g_flush_bytes     = 0;
-static volatile uint32_t g_flush_last_us   = 0;
-static volatile uint64_t g_flush_total_us  = 0;
-static volatile uint32_t g_flush_count     = 0;
-
-// pentru log la 1s (din task, nu din ISR)
-static uint32_t g_log_last_tick = 0;
-
-#endif /* #if LVGL_BENCH_TEST */
-
 /**********************
  *   LVGL VARIABLES
  **********************/
@@ -245,19 +254,11 @@ lv_display_t* disp;              // Display LVGL
 /**********************
  *   LVGL FUNCTIONS
  **********************/
-
 /* Display flushing function callback */
 void lv_disp_flush(lv_display_t* disp, const lv_area_t* area, uint8_t* px_map) {
-#ifdef LVGL_BENCH_TEST
-    // dimensiune reală a zonei în bytes
-    g_flush_bytes     = (area->x2 - area->x1 + 1) * (area->y2 - area->y1 + 1) * sizeof(lv_color_t);
-    g_flush_tstart_us = esp_timer_get_time();  // ISR-safe
-#endif                                         /* #if LVGL_BENCH_TEST */
     esp_lcd_panel_draw_bitmap(
         panel_handle, area->x1, area->y1, area->x2 + 1, area->y2 + 1, (const void*) px_map);
-#ifdef flush_ready_in_disp_flush
     lv_disp_flush_ready(disp);
-#endif /* #ifdef (flush_ready_in_disp_flush) */
 }
 //---------
 void lv_touchpad_read(lv_indev_t* indev_drv, lv_indev_data_t* data) {
@@ -312,53 +313,19 @@ void lv_touchpad_read_v2(lv_indev_t* indev_drv, lv_indev_data_t* data) {
     data->point.y = stable_y;  // Trimitem ultima poziție stabilă
 }
 //---------
-bool panel_io_trans_done_callback(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_io_event_data_t* edata, void* user_ctx) {
-    // old rau.
-    // if (disp != NULL) {
-    // } else {
-    //     esp_rom_printf("[lv_trans_done_cb] - disp este NULL!\n");
-    // }
-    // return false;  // false înseamnă: nu mai face nimic după
-#ifdef LVGL_BENCH_TEST
-    // calcule rapide, ISR-safe
-    uint32_t end_us     = (uint32_t) esp_timer_get_time();
-    uint32_t elapsed_us = end_us - (uint32_t) g_flush_tstart_us;
-
-    g_flush_last_us     = elapsed_us;
-    g_flush_total_us += elapsed_us;
-    g_flush_count++;
-#endif /* #ifdef LVGL_BENCH_TEST */
-#ifdef flush_ready_in_io_trans_done
-    lv_display_t* d = (lv_display_t*) user_ctx;
-    if (d)
-        lv_disp_flush_ready(d);  // <— mutat aici
-#endif                           /* #ifdef (flush_ready_in_io_trans_done) */
-    return false;                // nu mai face nimic după
+bool panel_io_trans_done_callback(
+    esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_io_event_data_t* edata, void* user_ctx) {
+    if (disp != NULL) {
+    } else {
+        esp_rom_printf("[lv_trans_done_cb] - disp este NULL!\n");
+    }
+    return false;  // false înseamnă: nu mai face nimic după
 }
 //---------
-#if LV_TICK_SOURCE == LV_TICK_SOURCE_CALLBACK
 uint32_t lv_get_rtos_tick_count_callback(void) {
     return xTaskGetTickCount();
 }  // Callback pentru a obține numărul de tick-uri RTOS
-#endif /* #if LV_TICK_SOURCE == LV_TICK_SOURCE_CALLBACK */
 //--------------------------------------
-static SemaphoreHandle_t s_lvgl_mutex;
-
-bool s_lvgl_port_init_locking(void) {
-    s_lvgl_mutex = xSemaphoreCreateRecursiveMutex();
-    return (s_lvgl_mutex != NULL);
-}
-
-bool s_lvgl_lock(uint32_t timeout_ms) {
-    if (!s_lvgl_mutex)
-        return false;
-    return xSemaphoreTakeRecursive(s_lvgl_mutex, pdMS_TO_TICKS(timeout_ms)) == pdTRUE;
-}
-
-void s_lvgl_unlock(void) {
-    if (s_lvgl_mutex)
-        xSemaphoreGiveRecursive(s_lvgl_mutex);
-}
 
 /*
 ███████ ██████  ███████ ███████ ██████ ████████  ██████  ███████ 
@@ -375,71 +342,21 @@ TaskHandle_t xHandle_lv_main_task;
 TaskHandle_t xHandle_lv_main_tick_task;
 TaskHandle_t xHandle_chechButton0State;
 //---------
-#if (LV_TIMER_TASK_METHOD == USE_MUTEX)
-SemaphoreHandle_t lvgl_timer_mutex;
-
-bool lv_timer_sem_take(void) {
-    return (xSemaphoreTake(lvgl_timer_mutex, portMAX_DELAY) == pdTRUE);
+#if (LV_TASK_NOTIFY_SIGNAL_MODE == USE_MUTEX)
+SemaphoreHandle_t lvgl_mutex;
+bool              lv_port_sem_take(void) {
+    return (xSemaphoreTake(lvgl_mutex, portMAX_DELAY) == pdTRUE);
 }
-bool lv_timer_sem_give(void) {
-    return (xSemaphoreGive(lvgl_timer_mutex) == pdTRUE);
+//---------
+bool lv_port_sem_give(void) {
+    return (xSemaphoreGive(lvgl_mutex) == pdTRUE);
 }
+#endif  // (LV_TASK_NOTIFY_SIGNAL_MODE == USE_MUTEX)
 
-#endif  // (LV_TIMER_TASK_METHOD == USE_MUTEX)
-
-#ifdef LVGL_BENCH_TEST
 /********************************************** */
 /*                   TASK                       */
 /********************************************** */
-void lv_bench_task(void* parameter) {
-    static TickType_t tick = 0;
-    tick                   = xTaskGetTickCount();
-    g_log_last_tick        = lv_tick_get();
-    while (true) {
-        // --- log la 1s, din task (NU din ISR) ---
-        uint32_t now = lv_tick_get();
-        if (now - g_log_last_tick >= 1000 && g_flush_count) {
-            double avg_us   = (double) g_flush_total_us / (double) g_flush_count;        // medii
-            double fps_avg  = 1e6 / avg_us;                                              // medii
-            double fps_inst = g_flush_last_us ? (1e6 / (double) g_flush_last_us) : 0.0;  // medii
-
-            // MB/s (atenție: dacă nu randezi full-screen, asta e pe “ultima zonă”)
-            double mbps_inst = g_flush_last_us
-                ? ((double) g_flush_bytes / (1024.0 * 1024.0)) / ((double) g_flush_last_us / 1e6)
-                : 0.0;
-
-            ESP_LOGI("STATS", "flush last=%.2f ms | avg=%.2f ms | FPS(inst)=%.1f | FPS(avg)=%.1f | MB/s(inst)=%.2f", g_flush_last_us / 1000.0, avg_us / 1000.0, fps_inst, fps_avg, mbps_inst);
-
-            g_log_last_tick = now;
-        }
-        // ----------------------------------------
-        vTaskDelayUntil(&tick, pdMS_TO_TICKS(100));
-    }
-}
-#endif /* #ifdef LVGL_BENCH_TEST */
-
-/************************************************** */
-#define TICK_INCREMENTATION 5  // must be equal incrementation with delay
-
-#if LV_TICK_SOURCE == LV_TICK_SOURCE_TIMER
-static void lv_tick_timer_cb(void* arg) {
-    lv_tick_inc((TICK_INCREMENTATION));  // 5 ms tick
-}
-
-static void lv_tick_start_timer(void) {
-    const esp_timer_create_args_t timer_args = {
-        .callback = &lv_tick_timer_cb,
-        .name     = "lv_tick"};
-    esp_timer_handle_t tick_timer;
-    ESP_ERROR_CHECK(esp_timer_create(&timer_args, &tick_timer));
-    ESP_ERROR_CHECK(esp_timer_start_periodic(tick_timer, TICK_INCREMENTATION * 1000));  // 1000 us = 1 ms
-}
-/* #if LV_TICK_SOURCE == LV_TICK_SOURCE_TIMER */
-#elif LV_TICK_SOURCE == LV_TICK_SOURCE_TASK
-/********************************************** */
-/*                   TASK                       */
-/********************************************** */
-#if (LV_TIMER_TASK_METHOD == USE_MUTEX)
+#if (LV_TASK_NOTIFY_SIGNAL_MODE == USE_MUTEX)
 void lv_main_tick_task(void* parameter) {
     static TickType_t tick = 0;
     tick                   = xTaskGetTickCount();  // Inițializare corectă
@@ -448,7 +365,7 @@ void lv_main_tick_task(void* parameter) {
         vTaskDelayUntil(&tick, pdMS_TO_TICKS(5));  // Delay precis mult mai rapid asa
     }
 }
-#elif (LV_TIMER_TASK_METHOD == USE_FREERTOS_TASK_NOTIF)
+#elif (LV_TASK_NOTIFY_SIGNAL_MODE == USE_FREERTOS_TASK_NOTIF)
 void lv_main_tick_task(void* parameter) {
     static TickType_t tick = 0;
     tick                   = xTaskGetTickCount();
@@ -459,57 +376,43 @@ void lv_main_tick_task(void* parameter) {
         xTaskDelayUntil(&tick, pdMS_TO_TICKS(5));  // Delay precis mult mai rapid asa
     }
 }
-#endif  // (LV_TIMER_TASK_METHOD == USE_FREERTOS_TASK_NOTIF)
-#endif  /* #if LV_TICK_SOURCE == LV_TICK_SOURCE_TASK */
+#endif  // (LV_TASK_NOTIFY_SIGNAL_MODE == USE_FREERTOS_TASK_NOTIF)
+
 /********************************************** */
 /*                   TASK                       */
 /********************************************** */
-#if (LV_TIMER_TASK_METHOD == USE_MUTEX)
+#if (LV_TASK_NOTIFY_SIGNAL_MODE == USE_MUTEX)
 void lv_main_task(void* parameter) {
-    xHandle_lv_main_task   = xTaskGetCurrentTaskHandle();
     static TickType_t tick = 0;
     tick                   = xTaskGetTickCount();  // Inițializare corectă
     while (true) {
-        if (s_lvgl_lock(portMAX_DELAY)) {
-            if (lv_timer_sem_take())  // Protejeaza accesul la LVGL
-            {
-                lv_timer_handler();   /* let the GUI do its work */
-                lv_timer_sem_give();  // Eliberam mutex-ul
-            }
-            s_lvgl_unlock();
+        if (lv_port_sem_take())  // Protejeaza accesul la LVGL
+        {
+            lv_timer_handler();  /* let the GUI do its work */
+            lv_port_sem_give();  // Eliberam mutex-ul
         }
         vTaskDelayUntil(&tick, pdMS_TO_TICKS(5));  // Delay precis mult mai rapid asa
     }
 }
-#endif  // (LV_TIMER_TASK_METHOD == USE_MUTEX)
-#if LV_TIMER_TASK_METHOD == USE_FREERTOS_TASK_NOTIF
+#endif  // (LV_TASK_NOTIFY_SIGNAL_MODE == USE_MUTEX)
+#if LV_TASK_NOTIFY_SIGNAL_MODE == USE_FREERTOS_TASK_NOTIF
 void lv_main_task(void* parameter) {
-    xHandle_lv_main_task   = xTaskGetCurrentTaskHandle();
     static TickType_t tick = 0;
-    tick                   = xTaskGetTickCount();  // Inițializare corectă
+    tick                   = xTaskGetTickCount();          // Inițializare corectă
+    xHandle_lv_main_task   = xTaskGetCurrentTaskHandle();  // Încoronarea oficială
     while (true) {
-        if (s_lvgl_lock(portMAX_DELAY)) {
-#if LV_TICK_SOURCE == LV_TICK_SOURCE_TASK
-            uint32_t   notificationValue;
-            BaseType_t notified = xTaskNotifyWait(
-                0x00,       // nu ignoră nimic
-                ULONG_MAX,  // curăță toate biturile
-                &notificationValue,
-                portMAX_DELAY  // așteaptă cât trebuie
-            );
-            if (notified == pdTRUE && (notificationValue & LV_TASK_NOTIFY_SIGNAL)) {
-                lv_timer_handler();
-            }
-            s_lvgl_unlock();  // mereu eliberezi, indiferent dacă ai notificare sau nu
-#elif LV_TICK_SOURCE == LV_TICK_SOURCE_TIMER
-            lv_timer_handler();
-            s_lvgl_unlock();
-            vTaskDelayUntil(&tick, pdMS_TO_TICKS(5));  // delay doar aici
-#endif
+        uint32_t   notificationValue;                // Așteapta notificarea
+        BaseType_t notified = xTaskNotifyWait(0x00,  // Niciun bit de ignorat
+            ULONG_MAX,                               // Curata toate biturile
+            &notificationValue,                      // Primește valoarea notificarii
+            portMAX_DELAY);                          // Așteapta notificarea pe termen nelimitat
+        if (notified == pdTRUE && (notificationValue & LV_TASK_NOTIFY_SIGNAL)) {
+            lv_timer_handler();  // LVGL își face treaba
         }
+        vTaskDelayUntil(&tick, pdMS_TO_TICKS(5));  // Delay precis mult mai rapid asa
     }
 }
-#endif  // (LV_TIMER_TASK_METHOD == USE_FREERTOS_TASK_NOTIF)
+#endif  // (LV_TASK_NOTIFY_SIGNAL_MODE == USE_FREERTOS_TASK_NOTIF)
 
 /********************************************** */
 /*                   TASK                       */
@@ -579,17 +482,6 @@ extern "C" void app_main(void) {
     // printf("\tESP-IDF version from 2nd stage bootloader: %s\n",
     // bootloader_desc.idf_ver); printf("\tESP-IDF version from app: %s\n", IDF_VER);
 
-    lv_init();
-
-#if LV_TICK_SOURCE == LV_TICK_SOURCE_CALLBACK
-    // Next function comment because create problems with lvgl timers and esp32 timers
-    lv_tick_set_cb(lv_get_rtos_tick_count_callback);
-#endif /* #if LV_TICK_SOURCE == LV_TICK_SOURCE_CALLBACK */
-
-    disp = lv_display_create(
-        (int32_t) LCD_WIDTH,
-        (int32_t) LCD_HEIGHT);
-
     esp_lcd_i80_bus_config_t lcd_bus_config = {.dc_gpio_num = BOARD_TFT_DC,
         .wr_gpio_num                                        = BOARD_TFT_WR,
         .clk_src                                            = LCD_CLK_SRC_DEFAULT,
@@ -611,22 +503,18 @@ extern "C" void app_main(void) {
     ESP_ERROR_CHECK(esp_lcd_new_i80_bus(&lcd_bus_config, &i80_bus));
 
     esp_lcd_panel_io_i80_config_t lcd_io_config = {
-        .cs_gpio_num = BOARD_TFT_CS,
-        //.pclk_hz             = LCD_PIXEL_CLOCK_HZ,
-        //.pclk_hz             = 30000000,
-        //.pclk_hz             = 26000000,
-        .pclk_hz             = 20000000,
+        .cs_gpio_num         = BOARD_TFT_CS,
+        .pclk_hz             = EXAMPLE_LCD_PIXEL_CLOCK_HZ,
         .trans_queue_depth   = 10,
         .on_color_trans_done = panel_io_trans_done_callback,
-        //.user_ctx            = NULL,
-        .user_ctx       = disp,
-        .lcd_cmd_bits   = 8,
-        .lcd_param_bits = 8,
-        .dc_levels      = {
-                 .dc_idle_level  = 0,
-                 .dc_cmd_level   = 0,
-                 .dc_dummy_level = 0,
-                 .dc_data_level  = 1,
+        .user_ctx            = NULL,
+        .lcd_cmd_bits        = 8,
+        .lcd_param_bits      = 8,
+        .dc_levels           = {
+                      .dc_idle_level  = 0,
+                      .dc_cmd_level   = 0,
+                      .dc_dummy_level = 0,
+                      .dc_data_level  = 1,
         },
         .flags = {
             .cs_active_high     = 0,
@@ -720,6 +608,10 @@ extern "C" void app_main(void) {
     ESP_ERROR_CHECK(esp_lcd_touch_new_spi_xpt2046(touch_io_handle, &touch_config, &touch_handle));
     ESP_LOGI("LVGL", "Touch panel created");
 
+    lv_init();
+    lv_tick_set_cb(lv_get_rtos_tick_count_callback);
+    disp = lv_display_create((int32_t) LCD_WIDTH, (int32_t) LCD_HEIGHT);
+
 #if (BUFFER_MODE == BUFFER_FULL)
     bufSize = ((LCD_WIDTH * LCD_HEIGHT) * lv_color_format_get_size(lv_display_get_color_format(disp)));
 #elif (BUFFER_MODE == BUFFER_60LINES)
@@ -794,21 +686,18 @@ extern "C" void app_main(void) {
     lv_indev_set_read_cb(indev, lv_touchpad_read_v2);
     ESP_LOGI("LVGL", "LVGL Setup done");
 
-#if LV_TIMER_TASK_METHOD == USE_MUTEX
+#if LV_TASK_NOTIFY_SIGNAL_MODE == USE_MUTEX
     ESP_LOGI("LVGL", "Se creaza LVGL mutex!");
-    lvgl_timer_mutex = xSemaphoreCreateMutex();
-    if (lvgl_timer_mutex == NULL) {
+    lvgl_mutex = xSemaphoreCreateMutex();
+    if (lvgl_mutex == NULL) {
         ESP_LOGE("LVGL", "Eroare: Mutex-ul LVGL nu a fost creat!");
         while (1)
             ;  // Blocheaza executia daca mutex-ul nu poate fi creat
     }
-#endif  // (LV_TIMER_TASK_METHOD == USE_MUTEX)
+#endif  // (LV_TASK_NOTIFY_SIGNAL_MODE == USE_MUTEX)
 
-    s_lvgl_port_init_locking();
-
-    s_lvgl_lock(0);
     create_tabs_ui();  // Creeaza interfata grafica
-    s_lvgl_unlock();
+    // start_resource_monitor();
 
     StartCLI();
 
@@ -821,9 +710,6 @@ extern "C" void app_main(void) {
         ((1))                                    // Nucleul pe care ruleaza task-ul
     );
 
-#if LV_TICK_SOURCE == LV_TICK_SOURCE_TIMER
-    lv_tick_start_timer();
-#elif LV_TICK_SOURCE == LV_TICK_SOURCE_TASK
     xTaskCreatePinnedToCore(lv_main_tick_task,   // Functia care ruleaza task-ul
         (const char*) "LVGL Tick Task",          // Numele task-ului
         (uint32_t) (2048 + 1024),                // Dimensiunea stack-ului
@@ -832,12 +718,6 @@ extern "C" void app_main(void) {
         &xHandle_lv_main_tick_task,              // Handle-ul task-ului
         ((1))                                    // Nucleul pe care ruleaza (ESP32 e dual-core)
     );
-#endif /* #if LV_TICK_SOURCE == LV_TICK_SOURCE_TIMER */
-
-#ifdef LVGL_BENCH_TEST
-    esp_rom_delay_us(1000);
-    xTaskCreatePinnedToCore(lv_bench_task, "lvBench", 4096, NULL, tskIDLE_PRIORITY + 1, NULL, 1);
-#endif /* #ifdef LVGL_BENCH_TEST */
 
     xTaskCreatePinnedToCore(chechButton0State,   // Functia care ruleaza task-ul
         (const char*) "v_check_0_pin_state",     // Numele task-ului
@@ -847,4 +727,10 @@ extern "C" void app_main(void) {
         &xHandle_chechButton0State,              // Handle-ul task-ului
         ((1))                                    // Nucleul pe care ruleaza (ESP32 e dual-core)
     );
-}
+}  // app_main
+
+/********************************************** */
+
+/**********************
+ *   END OF FILE
+ **********************/

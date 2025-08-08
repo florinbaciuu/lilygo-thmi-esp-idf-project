@@ -237,7 +237,9 @@
 			"esp_err.h": "c",
 			"stat.h": "c",
 			"defines.h": "c",
-			"stdbool.h": "c"
+			"stdbool.h": "c",
+			"complex": "cpp",
+			"cstdint": "cpp"
 		},
 		//------------------------------------------------------------------
 		"accessibility.underlineLinks": true,
