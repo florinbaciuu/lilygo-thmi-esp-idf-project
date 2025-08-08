@@ -12,8 +12,8 @@
  * @time      20:40 (PM)
  * @computer  Mac Mini M4
  * ..
- * @details   This file contains the main application logic, including initialization of
- * hardware components,
+ * @details   This file contains the main application logic, including initialization of hardware
+ * components,
  */
 
 /*********************
@@ -38,9 +38,10 @@
 #define PWR_EN_PIN (10)                                // connected to the battery alone
 //---------
 #define PWR_ON_PIN \
-    (14)                    // if you use an ext 5V power supply, you need to bring a magnet close to the
-                            // ReedSwitch and set the PowerOn Pin (GPIO14) to HIGH
-#define Dellp_OFF_PIN (21)  // connected to the battery and the USB power supply, used to turn off the device
+    (14)  // if you use an ext 5V power supply, you need to bring a magnet close to the ReedSwitch
+          // and set the PowerOn Pin (GPIO14) to HIGH
+#define Dellp_OFF_PIN \
+    (21)  // connected to the battery and the USB power supply, used to turn off the device
 //---------
 #define PIN_NUM_IRQ (9)   // IRQ pin for touch controller
 #define BAT_ADC_PIN (5)   // ADC pin for battery voltage measurement
@@ -86,33 +87,25 @@
  *      INCLUDES
  *********************/
 extern "C" {
+#include "esp_bootloader_desc.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include "esp_mac.h"
-
-#include "esp_bootloader_desc.h"
-
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-
+#define ESP_LCD_IO_I2C_SKIP_INCLUDE 1
 #include "driver/gpio.h"
-#include "esp_log.h"
-
 #include "esp_lcd_panel_io.h"
 #include "esp_lcd_panel_ops.h"
 #include "esp_lcd_panel_st7789.h"  // Sau driverul real folosit de tine
 #include "esp_lcd_touch.h"
 #include "esp_lcd_touch_xpt2046.h"
-
+#include "esp_log.h"
 #include "lvgl.h"
 #include <lv_conf.h>
-// #include "esp_lvgl_port.h"
-
-// my include
-#include "one-cli.h"
-
+#include "esp_lvgl_port.h"
 #include "ui.h"
+#include "command_line_interface.h"
 }
 
 /**********************
@@ -187,9 +180,8 @@ int16_t  touch_map_x1 = 3857;
 int16_t  touch_map_x2 = 239;
 int16_t  touch_map_y1 = 213;
 int16_t  touch_map_y2 = 3693;
-uint16_t x            = 0;
-uint16_t y            = 0;
-uint8_t  num_points   = 0;
+uint16_t x = 0, y = 0;
+uint8_t  num_points = 0;
 
 /**********************
  *   TOUCH FUNCTIONS
@@ -279,15 +271,14 @@ void lv_touchpad_read(lv_indev_t* indev_drv, lv_indev_data_t* data) {
 }
 //---------
 void lv_touchpad_read_v2(lv_indev_t* indev_drv, lv_indev_data_t* data) {
-    static uint16_t      last_x          = 0;         // Ultima poziție X
-    static uint16_t      last_y          = 0;         // Ultima poziție Y
-    static uint16_t      stable_x        = 0;         // Poziția stabilă X
-    static uint16_t      stable_y        = 0;         // Poziția stabilă Y
-    static uint8_t       touch_cnt       = 0;         // Numărul de atingeri stabile
-    static const uint8_t touch_tolerance = 8;         // Poți crește sau micșora după feeling //
-                                                      // Distanța permisă între citiri succesive
-    static const uint8_t TOUCH_STABLE_THRESHOLD = 0;  // Threshold pentru stabilitate  // De câte ori trebuie
-                                                      // să fie stabil ca să fie considerat apăsat
+    static uint16_t      last_x                 = 0;  // Ultima poziție X
+    static uint16_t      last_y                 = 0;  // Ultima poziție Y
+    static uint16_t      stable_x               = 0;  // Poziția stabilă X
+    static uint16_t      stable_y               = 0;  // Poziția stabilă Y
+    static uint8_t       touch_cnt              = 0;  // Numărul de atingeri stabile
+    static const uint8_t touch_tolerance        = 8;  // Poți crește sau micșora după feeling // Distanța permisă între citiri succesive
+    static const uint8_t TOUCH_STABLE_THRESHOLD = 0;  // Threshold pentru stabilitate  // De câte ori trebuie să fie stabil ca să fie
+                                                      // considerat apăsat
     uint16_t x, y;
     if (touch_read(&x, &y)) {
         if (abs(x - last_x) < touch_tolerance && abs(y - last_y) < touch_tolerance) {
@@ -371,9 +362,9 @@ void lv_main_tick_task(void* parameter) {
     tick                   = xTaskGetTickCount();
     while (true) {
         lv_tick_inc(5);  // Incrementeaza tick-urile LVGL
-        xTaskNotify(xHandle_lv_main_task, LV_TASK_NOTIFY_SIGNAL,
-            eSetBits);                             // Notifica task-ul principal
-        xTaskDelayUntil(&tick, pdMS_TO_TICKS(5));  // Delay precis mult mai rapid asa
+        xTaskNotify(
+            xHandle_lv_main_task, LV_TASK_NOTIFY_SIGNAL, eSetBits);  // Notifica task-ul principal
+        vTaskDelayUntil(&tick, pdMS_TO_TICKS(5));                    // Delay precis mult mai rapid asa
     }
 }
 #endif  // (LV_TASK_NOTIFY_SIGNAL_MODE == USE_FREERTOS_TASK_NOTIF)
@@ -439,7 +430,8 @@ void chechButton0State(void* parameter) {
     };
     gpio_config(&io_conf);
     gpio_install_isr_service(ESP_INTR_FLAG_LEVEL1);  // doar o dată în tot proiectul
-    gpio_isr_handler_add((gpio_num_t) 0, chechButton0State_isr_handler, (void*) xHandle_chechButton0State);
+    gpio_isr_handler_add(
+        (gpio_num_t) 0, chechButton0State_isr_handler, (void*) xHandle_chechButton0State);
     while (true) {
         xTaskNotifyWait(0x00, 0xFFFFFFFF, &notificationValue, portMAX_DELAY);
         if (notificationValue & 0x01) {
@@ -473,14 +465,11 @@ extern "C" void app_main(void) {
     esp_sleep_enable_timer_wakeup(5000000);  // 5 secunde în microsecunde
 
     esp_bootloader_desc_t bootloader_desc;
-
     printf("\n");
-
     ESP_LOGI("Bootloader description", "\tESP-IDF version from 2nd stage bootloader: %s\n", bootloader_desc.idf_ver);
     ESP_LOGI("Bootloader description", "\tESP-IDF version from app: %s\n", IDF_VER);
-
-    // printf("\tESP-IDF version from 2nd stage bootloader: %s\n",
-    // bootloader_desc.idf_ver); printf("\tESP-IDF version from app: %s\n", IDF_VER);
+    // printf("\tESP-IDF version from 2nd stage bootloader: %s\n", bootloader_desc.idf_ver);
+    // printf("\tESP-IDF version from app: %s\n", IDF_VER);
 
     esp_lcd_i80_bus_config_t lcd_bus_config = {.dc_gpio_num = BOARD_TFT_DC,
         .wr_gpio_num                                        = BOARD_TFT_WR,
@@ -665,15 +654,16 @@ extern "C" void app_main(void) {
         disp, disp_draw_buf, disp_draw_buf_II, bufSize, (lv_display_render_mode_t) RENDER_MODE);
     ESP_LOGI("LVGL", "LVGL buffers set");
 #else
-    lv_display_set_buffers(disp, disp_draw_buf, NULL, bufSize, (lv_display_render_mode_t) RENDER_MODE);
+    lv_display_set_buffers(
+        disp, disp_draw_buf, NULL, bufSize, (lv_display_render_mode_t) RENDER_MODE);
 #endif
 
     lv_display_set_resolution(disp, LCD_WIDTH, LCD_HEIGHT);           // Seteaza rezolutia software
     lv_display_set_physical_resolution(disp, LCD_WIDTH, LCD_HEIGHT);  // Actualizeaza rezolutia reala
     lv_display_set_rotation(disp, (lv_display_rotation_t) 0);         // Seteaza rotatia lvgl
-    lv_display_set_render_mode(disp,
-        (lv_display_render_mode_t) RENDER_MODE);  // Seteaza (lv_display_render_mode_t)
-    lv_display_set_antialiasing(disp, true);      // Antialiasing DA sau NU
+    lv_display_set_render_mode(
+        disp, (lv_display_render_mode_t) RENDER_MODE);  // Seteaza (lv_display_render_mode_t)
+    lv_display_set_antialiasing(disp, true);            // Antialiasing DA sau NU
     ESP_LOGI("LVGL", "LVGL display settings done");
 
     lv_display_set_flush_cb(disp, lv_disp_flush);  // Set the flush callback which will be called to

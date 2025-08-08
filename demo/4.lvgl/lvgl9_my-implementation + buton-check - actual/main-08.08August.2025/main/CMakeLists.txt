@@ -55,7 +55,7 @@ set(
 # set(EXTRA_COMPONENT_DIRS lib) in root/CMakeLists.txt
 set(
     my_components_add
-    one-cli-v0003
+    one-cli-v0004
     onebutton-v0001
     filesystem-v0002
 )

@@ -9,6 +9,7 @@
  * * Then, modify the settings as needed.
  * * The library will automatically include this file during compilation.
  * Configuration file for v9.2.2
+ * Baciu Aurel Florin
  */
 
 /*
@@ -580,7 +581,7 @@
 #define LV_FONT_MONTSERRAT_12 1
 #define LV_FONT_MONTSERRAT_14 1
 #define LV_FONT_MONTSERRAT_16 1
-#define LV_FONT_MONTSERRAT_18 1
+#define LV_FONT_MONTSERRAT_18 0
 #define LV_FONT_MONTSERRAT_20 0
 #define LV_FONT_MONTSERRAT_22 0
 #define LV_FONT_MONTSERRAT_24 0
