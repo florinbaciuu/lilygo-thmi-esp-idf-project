@@ -1,4 +1,4 @@
 {
   "C_Cpp.intelliSenseEngine": "default",
-  "idf.portWin": "COM7"
+  "idf.port": "/dev/tty.usbmodem2101"
 }
